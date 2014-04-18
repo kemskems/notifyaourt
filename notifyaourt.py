@@ -1,7 +1,11 @@
+#!/usr/bin/env python3
+
+
 import os
 import os.path
 import json
 import subprocess
+import argparse
 
 
 VERSION_KEY = 'Version'
@@ -45,9 +49,19 @@ def get_packages():
         return []
 
 
+parser = argparse.ArgumentParser(description='Simple notifier for Arch Linux \
+                                package update')
+parser.add_argument('command', help='Command to update packages')
+parser.add_argument('flags', nargs=argparse.REMAINDER,
+                    help='Flags to be passed to command')
+args = parser.parse_args()
+
+
 packages = get_packages()
 old_info = get_info(packages)
-subprocess.call(['yaourt', '-Syua'])
+update_command = args.flags
+update_command.insert(0, args.command)
+subprocess.call(update_command)
 new_info = get_info(packages)
 updated_packages = []
 for pkg in packages:
