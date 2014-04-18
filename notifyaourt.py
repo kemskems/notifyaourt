@@ -12,15 +12,17 @@ def get_info(pkgs):
     """Get the current info of a list of packages"""
     pkg_map = {}
     for pkg in pkgs:
-        yaourt_proc = subprocess.Popen(['yaourt', '-Qi', pkg],
-            stdout=subprocess.PIPE)
+        yaourt_proc = subprocess.Popen(['pacman', '-Qi', pkg],
+                                       stdout=subprocess.PIPE)
         pattern = VERSION_KEY + '|' + URL_KEY
         grep_proc = subprocess.Popen(['grep', '-E', pattern],
-            stdin=yaourt_proc.stdout, stdout=subprocess.PIPE)
+                                     stdin=yaourt_proc.stdout,
+                                     stdout=subprocess.PIPE)
         out, err = grep_proc.communicate()
         sout = str(out, encoding='utf-8')
-        info_map = {u.split()[0]: u.split()[2] for u in sout.split('\n')
-            if len(u) > 0}
+        info_map = {u.split()[0]: u.split()[2]
+                    for u in sout.split('\n')
+                    if len(u) > 0}
         pkg_map[pkg] = info_map
     return pkg_map
 
