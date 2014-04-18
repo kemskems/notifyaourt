@@ -34,11 +34,11 @@ def get_info(pkgs):
 def get_packages():
     """Get the user-defined important list of packages
 
-    List of packages are stored as JSON file in $HOME/.notifyaourt.conf
+    List of packages are stored as JSON file in $HOME/.pacnotif.conf
 
     """
     home_dir = os.environ['HOME']
-    config_file = os.path.join(home_dir, '.notifyaourt.conf')
+    config_file = os.path.join(home_dir, '.pacnotif.conf')
     if os.path.exists(config_file):
         lines = ""
         with open(config_file) as conf:
